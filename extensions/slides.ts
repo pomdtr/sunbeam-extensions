@@ -1,4 +1,4 @@
-#!/usr/bin/env deno run -A --ext=ts
+#!/usr/bin/env deno run -A
 
 if (Deno.args.length === 0) {
     const manifest = {

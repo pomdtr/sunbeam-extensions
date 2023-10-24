@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run -A --ext=ts
+#!/usr/bin/env -S deno run -A
 
 import { DB } from "https://deno.land/x/sqlite@v3.8/mod.ts";
 import * as fs from "https://deno.land/std@0.203.0/fs/mod.ts";
