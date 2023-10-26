@@ -18,7 +18,7 @@ fi
 
 if [ "$1" = "list" ]; then
     mdfind kMDItemContentTypeTree=com.apple.application-bundle -onlyin / | sunbeam query -R '{
-        title: (split("/")[-1]),
+        title: (split("/")[-1] | split(".app")[0]),
         actions: [{
             title: "Open",
             onAction: {
