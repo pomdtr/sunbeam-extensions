@@ -4,11 +4,11 @@ if (Deno.args.length === 0) {
     const manifest = {
         title: "Kill Process",
         commands: [
-            { name: "list-processes", title: "List Active Process", "mode": "view" },
+            { name: "list-processes", title: "List Active Process", "mode": "page" },
             {
                 name: "kill-process",
                 title: "Kill Process",
-                "mode": "no-view",
+                "mode": "silent",
                 params: [
                     { name: "pid", type: "number", required: true },
                 ],

@@ -2,7 +2,7 @@
 
 import { DB } from "https://deno.land/x/sqlite@v3.8/mod.ts";
 import * as fs from "https://deno.land/std@0.203.0/fs/mod.ts";
-import type * as sunbeam from "npm:sunbeam-types@0.22.13";
+import type * as sunbeam from "npm:sunbeam-types@0.22.17";
 
 if (Deno.args.length == 0) {
     const manifest: sunbeam.Manifest = {
@@ -11,7 +11,7 @@ if (Deno.args.length == 0) {
             {
                 name: "list-projects",
                 title: "List Projects",
-                mode: "view",
+                mode: "page",
             },
         ],
     };

@@ -12,8 +12,8 @@ if [ $# -eq 0 ]; then
 sunbeam query -n '{
     title: "GitHub",
     commands: [
-        {name: "search-repos", mode: "view", title: "Search Repositories"},
-        {name: "list-prs", mode: "view", title: "List Pull Requests", params: [{name: "repo", type: "string", required: true}]}
+        {name: "search-repos", mode: "page", title: "Search Repositories"},
+        {name: "list-prs", mode: "page", title: "List Pull Requests", params: [{name: "repo", type: "string", required: true}]}
     ]
 }'
 exit 0

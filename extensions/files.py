@@ -12,7 +12,7 @@ if len(sys.argv) == 1:
                 {
                     "name": "ls",
                     "title": "List files",
-                    "mode": "view",
+                    "mode": "page",
                     "params": [
                         {"name": "dir", "type": "string"},
                         {"name": "show-hidden", "type": "boolean"},

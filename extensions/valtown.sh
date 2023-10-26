@@ -9,7 +9,7 @@ if [ $# -eq 0 ]; then
             {
                 name: "home",
                 title: "List Home Vals",
-                mode: "view"
+                mode: "page"
             }
         ]
     }'

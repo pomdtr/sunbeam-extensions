@@ -9,7 +9,7 @@ if [ $# -eq 0 ]; then
             {
                 name: "list",
                 title: "List All Apps",
-                mode: "view"
+                mode: "page"
             }
         ]
     }'

@@ -1,5 +1,5 @@
 import $ from "https://deno.land/x/dax@0.35.0/mod.ts";
-import type * as sunbeam from "npm:sunbeam-types@0.22.16";
+import type * as sunbeam from "npm:sunbeam-types@0.22.17";
 
 if (Deno.args.length == 0) {
     const manifest: sunbeam.Manifest = {
@@ -8,7 +8,7 @@ if (Deno.args.length == 0) {
             {
                 name: "list-devices",
                 title: "Search My Devices",
-                mode: "view",
+                mode: "page",
             },
             {
                 name: "ssh",

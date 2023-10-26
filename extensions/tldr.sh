@@ -11,8 +11,8 @@ if [ $# -eq 0 ]; then
     title: "Browse TLDR Pages",
     # each command can be called through the cli
     commands: [
-        { name: "list", mode: "view", title: "Search Pages" },
-        { name: "view", mode: "view", title: "View page", params: [{ name: "page", type: "string", required: true, description: "page to show" }] }
+        { name: "list", mode: "page", title: "Search Pages" },
+        { name: "page", mode: "page", title: "View page", params: [{ name: "page", type: "string", required: true, description: "page to show" }] }
     ]
 }'
 exit 0
@@ -28,11 +28,11 @@ if [ "$1" = "list" ]; then
     tldr --list | sunbeam query -R '{
         title: .,
         actions: [
-            {title: "View Page", onAction: { type: "run", command: "view", params: {page: .}}},
+            {title: "View Page", onAction: { type: "run", command: "page", params: {page: .}}},
             {title: "Copy Command", key: "c", onAction: { type: "copy", text: ., exit: true }}
         ]
     }' | sunbeam query -s '{ type: "list", items: . }'
-elif [ "$1" = "view" ]; then
+elif [ "$1" = "page" ]; then
     PAGE=$(sunbeam query -r '.params.page')
     tldr --raw "$PAGE" | sunbeam query --arg page="$PAGE" -sR '{
             type: "detail", markdown: ., actions: [

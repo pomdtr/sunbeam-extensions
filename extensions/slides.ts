@@ -7,7 +7,7 @@ if (Deno.args.length === 0) {
             {
                 name: "show",
                 title: "Show a slide",
-                mode: "view",
+                mode: "page",
                 params: [
                     {
                         name: "path",

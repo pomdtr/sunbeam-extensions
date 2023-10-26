@@ -7,7 +7,7 @@ if (Deno.args.length == 0) {
             {
                 name: "show",
                 title: "Show a feed",
-                mode: "view",
+                mode: "page",
                 params: [
                     {
                         name: "url",
