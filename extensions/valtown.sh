@@ -8,7 +8,7 @@ if [ $# -eq 0 ]; then
         commands: [
             {
                 name: "home",
-                title: "List vals in home",
+                title: "List Home Vals",
                 mode: "view"
             }
         ]

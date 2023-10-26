@@ -8,7 +8,7 @@ set -e
 if [ $# -eq 0 ]; then
     sunbeam query -n '
 {
-    title: "TLDR",
+    title: "Browse TLDR Pages",
     # each command can be called through the cli
     commands: [
         { name: "list", mode: "view", title: "Search Pages" },
