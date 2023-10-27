@@ -10,14 +10,6 @@ if [ $# -eq 0 ]; then
                 name: "home",
                 title: "List Home Vals",
                 mode: "page"
-            },
-            {
-                "name": "edit",
-                "title": "Edit Val",
-                "mode": "tty",
-                "params": [
-                    {"name": "id", "type": "string", required: true}
-                ]
             }
         ]
     }'
@@ -47,16 +39,6 @@ if [ "$1" = "home" ]; then
                     exit: true
                 },
                 {
-                    title: "Edit Val",
-                    key: "e",
-                    reload: true,
-                    type: "run",
-                    command: "edit",
-                    params: {
-                        id: .id
-                    }
-                },
-                {
                     title: "Copy URL",
                     key: "c",
                     exit: true,
@@ -80,13 +62,5 @@ if [ "$1" = "home" ]; then
             ]
         })
     }'
-elif [ "$1" = "edit" ]; then
-    VAL_ID=$(sunbeam query -r '.params.id')
-
-    sunbeam fetch -H "Authorization: Bearer $VALTOWN_TOKEN" "$API_ROOT/v1/vals/$VAL_ID" \
-        | sunbeam query -r .code \
-        | sunbeam edit -e tsx \
-        | sunbeam query -Rs '{ code: . }' \
-        | sunbeam fetch -X POST -d @- -H "Content-Type: application/json" -H "Authorization: Bearer $VALTOWN_TOKEN" "$API_ROOT/v1/vals/$VAL_ID/versions"
 fi
 

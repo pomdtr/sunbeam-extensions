@@ -10,19 +10,7 @@ if (Deno.args.length == 0) {
                 name: "list-devices",
                 title: "Search My Devices",
                 mode: "page",
-            },
-            {
-                name: "ssh",
-                title: "SSH to a device",
-                mode: "tty",
-                params: [
-                    {
-                        name: "device",
-                        type: "string",
-                        required: true,
-                    },
-                ],
-            },
+            }
         ],
     };
     console.log(JSON.stringify(manifest));
@@ -46,15 +34,6 @@ if (Deno.args[0] == "list-devices") {
         accessories: [device.OS, device.Online ? "online" : "offline"],
         actions: [
             {
-                title: "SSH to Device",
-                type: "run",
-                command: "ssh",
-                params: {
-                    device: device.DNSName.split(".")[0],
-                },
-                exit: true,
-            },
-            {
                 title: "Copy SSH Command",
                 type: "copy",
                 text: `ssh ${device.TailscaleIPs[0]}`,
@@ -64,6 +43,7 @@ if (Deno.args[0] == "list-devices") {
                 title: "Copy IP",
                 type: "copy",
                 text: device.TailscaleIPs[0],
+                key: "i",
                 exit: true,
             },
         ],
@@ -72,7 +52,4 @@ if (Deno.args[0] == "list-devices") {
     const list: sunbeam.List = { type: "list", items };
 
     console.log(JSON.stringify(list));
-} else if (Deno.args[0] == "ssh") {
-    const { params } = await new Response(Deno.stdin.readable).json();
-    await $`sunbeam wrap -- ssh ${params.device}`;
 }
