@@ -34,12 +34,10 @@ if [ "$1" = "list-docsets" ]; then
       actions: [
         {
           title: "Browse entries",
-          onAction: {
-            type: "run",
-            command: "list-entries",
-            params: {
-              slug: .slug
-            }
+          type: "run",
+          command: "list-entries",
+          params: {
+            slug: .slug
           }
         }
       ]
@@ -51,8 +49,8 @@ elif [ "$1" = "list-entries" ]; then
       title: .name,
       subtitle: .type,
       actions: [
-        {title: "Open in Browser", onAction: { type: "open", target: "https://devdocs.io/\($slug)/\(.path)", exit: true}},
-        {title: "Copy URL", key: "c", onAction: { type: "copy", text: "https://devdocs.io/\($slug)/\(.path)", exit: true}}
+        {title: "Open in Browser", type: "open", target: "https://devdocs.io/\($slug)/\(.path)", exit: true},
+        {title: "Copy URL", key: "c", type: "copy", text: "https://devdocs.io/\($slug)/\(.path)", exit: true}
       ]
     }) | { type: "list", items: . }'
 fi

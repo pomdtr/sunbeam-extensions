@@ -41,12 +41,10 @@ if (Deno.args[0] == "show") {
         actions.push({
             title: "Next",
             key: "n",
-            onAction: {
-                type: "reload",
-                params: {
-                    path: params.path,
-                    index: index + 1,
-                },
+            type: "reload",
+            params: {
+                path: params.path,
+                index: index + 1,
             },
         });
     }
@@ -54,12 +52,10 @@ if (Deno.args[0] == "show") {
         actions.push({
             title: "Previous",
             key: "p",
-            onAction: {
-                type: "reload",
-                params: {
-                    path: params.path,
-                    index: index - 1,
-                },
+            type: "reload",
+            params: {
+                path: params.path,
+                index: index - 1,
             },
         });
     }

@@ -30,9 +30,9 @@ if [ "$1" = "search-repos" ]; then
                 title: .full_name,
                 subtitle: (.description // ""),
                 actions: [
-                    { title: "Open in Browser", onAction: { type: "open", target: .html_url, exit: true }},
-                    { title: "Copy URL", key: "o", onAction: {type: "copy",  text: .html_url, exit: true} },
-                    { title: "List Pull Requests", key: "p", onAction: { type: "run", command: "list-prs", params: { repo: .full_name }}}
+                    { title: "Open in Browser", type: "open", target: .html_url, exit: true },
+                    { title: "Copy URL", key: "o", type: "copy",  text: .html_url, exit: true},
+                    { title: "List Pull Requests", key: "p", type: "run", command: "list-prs", params: { repo: .full_name }}
                 ]
             })
         }'
@@ -45,9 +45,9 @@ if [ "$1" = "search-repos" ]; then
                 title: .full_name,
                 subtitle: (.description // ""),
                 actions: [
-                    { title: "Open in Browser", onAction: { type: "open", target: .html_url, exit: true }},
-                    { title: "Copy URL", key: "o", onAction: {type: "copy",  text: .html_url, exit: true} },
-                    { title: "List Pull Requests", key: "p", onAction: { type: "run", command: "list-prs", params: { repo: .full_name }}}
+                    { title: "Open in Browser", type: "open", target: .html_url, exit: true },
+                    { title: "Copy URL", key: "o", type: "copy",  text: .html_url, exit: true},
+                    { title: "List Pull Requests", key: "p", type: "run", command: "list-prs", params: { repo: .full_name }}
                 ]
             })
         }'
@@ -60,8 +60,8 @@ elif [ "$1" = "list-prs" ]; then
             "#\(.number)"
         ],
         actions: [
-            {title: "Open in Browser", onAction: { type: "open", target: .url, exit: true}},
-            {title: "Copy URL", key: "c", onAction: { type: "copy", text: .url, exit: true}}
+            {title: "Open in Browser", type: "open", target: .url, exit: true},
+            {title: "Copy URL", key: "c", type: "copy", text: .url, exit: true}
         ]
     }) | {type: "list", items: .}'
 fi

@@ -21,11 +21,9 @@ if [ "$1" = "list" ]; then
         title: (split("/")[-1] | split(".app")[0]),
         actions: [{
             title: "Open",
-            onAction: {
-                type: "open",
-                target: .,
-                exit: true
-            }
+            type: "open",
+            target: .,
+            exit: true
         }]
     }' | sunbeam query -s '{ type: "list", items: . }'
 fi

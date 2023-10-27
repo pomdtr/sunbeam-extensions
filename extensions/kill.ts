@@ -54,11 +54,9 @@ if (Deno.args[0] === "list-processes") {
             accessories: [process.cpu.toString()],
             actions: [{
                 title: "Kill",
-                onAction: {
-                    type: "run",
-                    command: "kill-process",
-                    params: { pid: process.pid },
-                },
+                type: "run",
+                command: "kill-process",
+                params: { pid: process.pid },
             }],
         })),
     };

@@ -2,7 +2,7 @@
 
 import { DB } from "https://deno.land/x/sqlite@v3.8/mod.ts";
 import * as fs from "https://deno.land/std@0.203.0/fs/mod.ts";
-import type * as sunbeam from "npm:sunbeam-types@0.22.17";
+import type * as sunbeam from "npm:sunbeam-types@0.23.0";
 
 if (Deno.args.length == 0) {
     const manifest: sunbeam.Manifest = {
@@ -51,28 +51,26 @@ if (Deno.args[0] == "list-projects") {
         actions: [
             {
                 title: "Open in VS Code",
-                onAction: {
-                    type: "open",
-                    target: entry.folderUri,
-                    app: {
-                        mac: "Visual Studio Code",
-                    },
-                    exit: true,
+                type: "open",
+                target: entry.folderUri,
+                app: {
+                    mac: "Visual Studio Code",
                 },
+                exit: true,
             },
             {
                 title: "Open Folder",
                 key: "o",
-                onAction: { type: "open", target: entry.folderUri, exit: true },
+                type: "open",
+                target: entry.folderUri,
+                exit: true
             },
             {
                 title: "Copy Path",
                 key: "c",
-                onAction: {
-                    type: "copy",
-                    exit: true,
-                    text: entry.folderUri.replace("file://", ""),
-                },
+                type: "copy",
+                exit: true,
+                text: entry.folderUri.replace("file://", ""),
             },
         ],
     }));

@@ -32,20 +32,16 @@ if [ "$1" = "list-passwords" ]; then
         actions: [
             {
                 title: "Copy Password",
-                onAction: {
-                    type: "copy",
-                    text: (.login.password // ""),
-                    exit: true
-                }
+                type: "copy",
+                text: (.login.password // ""),
+                exit: true
             },
             {
                 title: "Copy Username",
                 key: "l",
-                onAction: {
-                    type: "copy",
-                    text: (.login.username // ""),
-                    exit: true
-                }
+                type: "copy",
+                text: (.login.username // ""),
+                exit: true
             }
         ]
     }) | {type: "list", items: .}'

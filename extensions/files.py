@@ -46,12 +46,10 @@ if sys.argv[1] == "ls":
             item["actions"].append(
                 {
                     "title": "Browse",
-                    "onAction": {
-                        "type": "run",
-                        "command": "ls",
-                        "params": {
-                            "dir": str(file.absolute()),
-                        },
+                    "type": "run",
+                    "command": "ls",
+                    "params": {
+                        "dir": str(file.absolute()),
                     },
                 }
             )
@@ -60,21 +58,17 @@ if sys.argv[1] == "ls":
                 {
                     "title": "Open",
                     "key": "o",
-                    "onAction": {
-                        "type": "open",
-                        "target": str(file.absolute()),
-                        "exit": True,
-                    },
+                    "type": "open",
+                    "target": str(file.absolute()),
+                    "exit": True,
                 },
                 {
                     "title": "Show Hidden Files" if not show_hidden else "Hide Hidden Files",
                     "key": "h",
-                    "onAction": {
-                        "type": "reload",
-                        "params": {
-                            "show-hidden": not show_hidden,
-                            "dir": str(root.absolute()),
-                        },
+                    "type": "reload",
+                    "params": {
+                        "show-hidden": not show_hidden,
+                        "dir": str(root.absolute()),
                     },
                 },
             ]

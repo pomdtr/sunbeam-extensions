@@ -1,5 +1,6 @@
+#!/usr/bin/env -S deno run -A
 import $ from "https://deno.land/x/dax@0.35.0/mod.ts";
-import type * as sunbeam from "npm:sunbeam-types@0.22.17";
+import type * as sunbeam from "npm:sunbeam-types@0.23.0";
 
 if (Deno.args.length == 0) {
     const manifest: sunbeam.Manifest = {
@@ -29,9 +30,16 @@ if (Deno.args.length == 0) {
     Deno.exit(0);
 }
 
+type Device = {
+    TailscaleIPs: string[];
+    DNSName: string;
+    OS: string;
+    Online: boolean;
+}
+
 if (Deno.args[0] == "list-devices") {
     const status = await $`tailscale status --json`.json();
-    const devices = Object.values(status.Peer) as any[];
+    const devices: Device[] = Object.values(status.Peer);
     const items: sunbeam.ListItem[] = devices.map((device) => ({
         title: device.DNSName.split(".")[0],
         subtitle: device.TailscaleIPs[0],
@@ -39,29 +47,24 @@ if (Deno.args[0] == "list-devices") {
         actions: [
             {
                 title: "SSH to Device",
-                onAction: {
-                    type: "run",
-                    command: "ssh",
-                    params: {
-                        device: device.DNSName.split(".")[0],
-                    },
+                type: "run",
+                command: "ssh",
+                params: {
+                    device: device.DNSName.split(".")[0],
                 },
+                exit: true,
             },
             {
                 title: "Copy SSH Command",
-                onAction: {
-                    type: "copy",
-                    text: `ssh ${device.TailscaleIPs[0]}`,
-                    exit: true,
-                },
+                type: "copy",
+                text: `ssh ${device.TailscaleIPs[0]}`,
+                exit: true,
             },
             {
                 title: "Copy IP",
-                onAction: {
-                    type: "copy",
-                    text: device.TailscaleIPs[0],
-                    exit: true,
-                },
+                type: "copy",
+                text: device.TailscaleIPs[0],
+                exit: true,
             },
         ],
     }));
@@ -72,5 +75,4 @@ if (Deno.args[0] == "list-devices") {
 } else if (Deno.args[0] == "ssh") {
     const { params } = await new Response(Deno.stdin.readable).json();
     await $`sunbeam wrap -- ssh ${params.device}`;
-    console.log(JSON.stringify({ type: "exit" } as sunbeam.Command));
 }

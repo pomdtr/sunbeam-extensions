@@ -28,16 +28,16 @@ if [ "$1" = "list" ]; then
     tldr --list | sunbeam query -R '{
         title: .,
         actions: [
-            {title: "View Page", onAction: { type: "run", command: "page", params: {page: .}}},
-            {title: "Copy Command", key: "c", onAction: { type: "copy", text: ., exit: true }}
+            {title: "View Page", type: "run", command: "page", params: {page: .}},
+            {title: "Copy Command", key: "c", type: "copy", text: ., exit: true }
         ]
     }' | sunbeam query -s '{ type: "list", items: . }'
 elif [ "$1" = "page" ]; then
     PAGE=$(sunbeam query -r '.params.page')
     tldr --raw "$PAGE" | sunbeam query --arg page="$PAGE" -sR '{
             type: "detail", markdown: ., actions: [
-                {title: "Copy Page", onAction: {type: "copy", text: ., exit: true}},
-                {title: "Copy Command", key: "c", onAction: {type: "copy", text: $page, exit: true}}
+                {title: "Copy Page", type: "copy", text: ., exit: true},
+                {title: "Copy Command", key: "c", type: "copy", text: $page, exit: true}
             ]
         }'
 fi

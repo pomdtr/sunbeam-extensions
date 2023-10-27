@@ -44,10 +44,8 @@ if (Deno.args[0] == "show") {
             actions: [
                 {
                     title: "Open in browser",
-                    onAction: {
-                        type: "open",
-                        target: item.link,
-                    },
+                    type: "open",
+                    target: item.link,
                 },
             ],
         })),

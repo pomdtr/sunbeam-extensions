@@ -10,6 +10,14 @@ if [ $# -eq 0 ]; then
                 name: "home",
                 title: "List Home Vals",
                 mode: "page"
+            },
+            {
+                "name": "edit",
+                "title": "Edit Val",
+                "mode": "tty",
+                "params": [
+                    {"name": "id", "type": "string", required: true}
+                ]
             }
         ]
     }'
@@ -34,41 +42,51 @@ if [ "$1" = "home" ]; then
             actions: [
                 {
                     title: "Open in Browser",
-                    onAction: {
-                        type: "open",
-                        target: "https://val.town/v/\(.author.username[1:])/\(.name)",
-                        exit: true
+                    type: "open",
+                    target: "https://val.town/v/\(.author.username[1:])/\(.name)",
+                    exit: true
+                },
+                {
+                    title: "Edit Val",
+                    key: "e",
+                    reload: true,
+                    type: "run",
+                    command: "edit",
+                    params: {
+                        id: .id
                     }
                 },
                 {
                     title: "Copy URL",
                     key: "c",
-                    onAction: {
-                        type: "copy",
-                        text: "https://val.town/v/\(.author.username[1:])/\(.name)",
-                        exit: true
-                    }
+                    exit: true,
+                    type: "copy",
+                    text: "https://val.town/v/\(.author.username[1:])/\(.name)"
                 },
                 {
                     title: "Copy Web Endpoint",
+                    exit: true,
                     key: "w",
-                    onAction: {
-                        type: "copy",
-                        text: "https://\(.author.username[1:])-\(.name).web.val.run",
-                        exit: true
-                    }
+                    type: "copy",
+                    text: "https://\(.author.username[1:])-\(.name).web.val.run"
                 },
                 {
                     "title": "Copy Run Endpoint",
                     "key": "r",
-                    onAction: {
-                        type: "copy",
-                        text: "https://api.val.town/v1/run/\(.author.username[1:])/\(.name)",
-                        exit: true
-                    }
+                    exit: true,
+                    type: "copy",
+                    text: "https://api.val.town/v1/run/\(.author.username[1:])/\(.name)"
                 }
             ]
         })
     }'
+elif [ "$1" = "edit" ]; then
+    VAL_ID=$(sunbeam query -r '.params.id')
+
+    sunbeam fetch -H "Authorization: Bearer $VALTOWN_TOKEN" "$API_ROOT/v1/vals/$VAL_ID" \
+        | sunbeam query -r .code \
+        | sunbeam edit -e tsx \
+        | sunbeam query -Rs '{ code: . }' \
+        | sunbeam fetch -X POST -d @- -H "Content-Type: application/json" -H "Authorization: Bearer $VALTOWN_TOKEN" "$API_ROOT/v1/vals/$VAL_ID/versions"
 fi
 
