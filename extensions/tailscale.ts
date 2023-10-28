@@ -10,6 +10,19 @@ if (Deno.args.length == 0) {
                 name: "list-devices",
                 title: "Search My Devices",
                 mode: "page",
+            },
+            {
+                name: "ssh-to-device",
+                title: "SSH to Device",
+                mode: "tty",
+                params: [
+                    {
+                        name: "ip",
+                        required: true,
+                        description: "Device IP",
+                        type: "string",
+                    }
+                ]
             }
         ],
     };
@@ -36,6 +49,14 @@ if (payload.command == "list-devices") {
         accessories: [device.OS, device.Online ? "online" : "offline"],
         actions: [
             {
+                title: "SSH to Device",
+                type: "run",
+                command: "ssh-to-device",
+                params: {
+                    ip: device.TailscaleIPs[0]
+                },
+            },
+            {
                 title: "Copy SSH Command",
                 type: "copy",
                 text: `ssh ${device.TailscaleIPs[0]}`,
@@ -54,4 +75,7 @@ if (payload.command == "list-devices") {
     const list: sunbeam.List = { type: "list", items };
 
     console.log(JSON.stringify(list));
+} else if (payload.command == "ssh-to-device") {
+    const params = payload.params as { ip: string };
+    await $`ssh ${params.ip}`;
 }
