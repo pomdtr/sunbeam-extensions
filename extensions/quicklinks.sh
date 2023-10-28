@@ -12,8 +12,8 @@ if [ $# -eq 0 ]; then
                 mode: "silent"
             },
             {
-                name: "workflowy",
-                title: "Open Workflowy",
+                name: "workflowy-sunbeam",
+                title: "Open Sunbeam Tree",
                 mode: "silent"
             }
         ]
@@ -24,6 +24,6 @@ fi
 COMMAND=$(echo "$1" | jq -r '.command')
 if [ "$COMMAND" = "google" ]; then
     sunbeam open https://google.com
-elif [ "$COMMAND" = "workflowy" ]; then
-    sunbeam open https://workflowy.com
+elif [ "$COMMAND" = "workflowy-sunbeam" ]; then
+    sunbeam open https://workflowy.com/#/56ff341c7433
 fi

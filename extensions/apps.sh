@@ -55,6 +55,11 @@ if [ $# -eq 0 ]; then
                 name: "python",
                 title: "Open Python Shell",
                 mode: "tty"
+            },
+            {
+                name: "sncli",
+                title: "Open sncli",
+                mode: "tty"
             }
         ]
     }'
@@ -82,4 +87,6 @@ elif [ "$COMMAND" = "python" ]; then
     ipython3
 elif [ "$COMMAND" = "fish" ]; then
     fish
+elif [ "$COMMAND" = "sncli" ]; then
+    sncli
 fi
