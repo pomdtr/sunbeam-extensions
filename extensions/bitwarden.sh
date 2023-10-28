@@ -25,7 +25,8 @@ if ! command -v bw &> /dev/null; then
     exit 1
 fi
 
-if [ "$1" = "list-passwords" ]; then
+COMMAND=$(echo "$1" | jq -r '.command')
+if [ "$COMMAND" = "list-passwords" ]; then
     bkt --ttl 24h --stale 1h -- bw --nointeraction list items --session "$BW_SESSION" | sunbeam query 'map({
         title: .name,
         subtitle: (.login.username // ""),

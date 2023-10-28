@@ -14,8 +14,8 @@ if len(sys.argv) == 1:
                     "title": "List files",
                     "mode": "page",
                     "params": [
-                        {"name": "dir", "type": "string"},
-                        {"name": "show-hidden", "type": "boolean"},
+                        {"name": "dir", "title": "Directory", "type": "string"},
+                        {"name": "show-hidden", "title": "Show Hidden Files", "type": "boolean"},
                     ],
                 }
             ],
@@ -26,11 +26,10 @@ if len(sys.argv) == 1:
     sys.exit(0)
 
 
-if sys.argv[1] == "ls":
-    payload = json.load(sys.stdin)
-    workdir = payload["cwd"]
+payload = json.load(sys.argv[1])
+if payload["command"] == "ls":
     params = payload.get("params", {})
-    root = pathlib.Path(params.get("dir", workdir))
+    root = pathlib.Path(params.get("dir", "."))
     show_hidden = params.get("show-hidden", False)
 
     items = []

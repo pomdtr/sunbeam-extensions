@@ -16,9 +16,11 @@ if [ $# -eq 0 ]; then
     exit 0
 fi
 
-if [ "$1" = "list" ]; then
+COMMAND=$(echo "$1" | jq -r '.command')
+if [ "$COMMAND" = "list" ]; then
     mdfind kMDItemContentTypeTree=com.apple.application-bundle -onlyin / | sunbeam query -R '{
         title: (split("/")[-1] | split(".app")[0]),
+        accessories: [.],
         actions: [{
             title: "Open",
             type: "open",

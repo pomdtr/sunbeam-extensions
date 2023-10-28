@@ -17,7 +17,7 @@ if [ $# -eq 0 ]; then
         title: "List Entries from Docset",
         mode: "page",
         params: [
-          {name: "slug", type: "string", required: true, description: "docset to search"}
+          { name: "slug", description: "Slug", type: "string", required: true }
         ]
       }
     ]
@@ -25,7 +25,8 @@ if [ $# -eq 0 ]; then
   exit 0
 fi
 
-if [ "$1" = "list-docsets" ]; then
+COMMAND=$(echo "$1" | jq -r '.command')
+if [ "$COMMAND" = "list-docsets" ]; then
   # shellcheck disable=SC2016
   sunbeam fetch https://devdocs.io/docs/docs.json | sunbeam query 'map({
       title: .name,
@@ -42,8 +43,8 @@ if [ "$1" = "list-docsets" ]; then
         }
       ]
     }) | { type: "list", items: . }'
-elif [ "$1" = "list-entries" ]; then
-  SLUG=$(sunbeam query -r '.params.slug')
+elif [ "$COMMAND" = "list-entries" ]; then
+  SLUG=$(echo "$1" | sunbeam query -r '.params.slug')
   # shellcheck disable=SC2016
   sunbeam fetch "https://devdocs.io/docs/$SLUG/index.json" | sunbeam query --arg slug="$SLUG" '.entries | map({
       title: .name,

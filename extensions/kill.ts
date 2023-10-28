@@ -1,14 +1,17 @@
 #!/usr/bin/env deno run -A
 
+import * as sunbeam from "npm:sunbeam-types@0.23.7";
+import $ from "https://deno.land/x/dax@0.35.0/mod.ts";
+
 if (Deno.args.length === 0) {
-    const manifest = {
+    const manifest: sunbeam.Manifest = {
         title: "Kill Process",
         commands: [
             { name: "list-processes", title: "List Active Process", "mode": "page" },
             {
                 name: "kill-process",
                 title: "Kill Process",
-                "mode": "silent",
+                mode: "silent",
                 params: [
                     { name: "pid", type: "number", required: true },
                 ],
@@ -20,10 +23,8 @@ if (Deno.args.length === 0) {
     Deno.exit(0);
 }
 
-import $ from "https://deno.land/x/dax@0.35.0/mod.ts";
-import { toJson } from "https://deno.land/std@0.203.0/streams/mod.ts";
-
-if (Deno.args[0] === "list-processes") {
+const payload = JSON.parse(Deno.args[0]) as sunbeam.CommandInput
+if (payload.command === "list-processes") {
     const stdout = await $`ps -eo pid,ppid,pcpu,rss,comm`.text();
     const processes = stdout.split("\n").map((line) => {
         const defaultValue = ["", "", "", "", "", ""];
@@ -62,11 +63,8 @@ if (Deno.args[0] === "list-processes") {
     };
 
     console.log(JSON.stringify(page));
-} else if (Deno.args[0] === "kill-process") {
-    const { params } = await toJson(Deno.stdin.readable) as {
-        params: { pid: number };
-    };
-
+} else if (payload.command === "kill-process") {
+    const params = payload.params as { pid: number };
     await $`kill ${params.pid}`;
     console.log(JSON.stringify({ type: "reload" }));
 }

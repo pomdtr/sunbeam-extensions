@@ -2,7 +2,7 @@
 
 import { DB } from "https://deno.land/x/sqlite@v3.8/mod.ts";
 import * as fs from "https://deno.land/std@0.203.0/fs/mod.ts";
-import type * as sunbeam from "npm:sunbeam-types@0.23.0";
+import type * as sunbeam from "npm:sunbeam-types@0.23.7";
 
 if (Deno.args.length == 0) {
     const manifest: sunbeam.Manifest = {
@@ -19,7 +19,9 @@ if (Deno.args.length == 0) {
     Deno.exit(0);
 }
 
-if (Deno.args[0] == "list-projects") {
+const payload = JSON.parse(Deno.args[0]) as sunbeam.CommandInput;
+
+if (payload.command == "list-projects") {
     const homedir = Deno.env.get("HOME");
     const db = new DB(
         `${homedir}/Library/Application Support/Code/User/globalStorage/state.vscdb`,

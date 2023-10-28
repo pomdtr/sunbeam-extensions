@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run -A
 import $ from "https://deno.land/x/dax@0.35.0/mod.ts";
-import type * as sunbeam from "npm:sunbeam-types@0.23.0";
+import type * as sunbeam from "npm:sunbeam-types@0.23.7";
 
 if (Deno.args.length == 0) {
     const manifest: sunbeam.Manifest = {
@@ -25,7 +25,9 @@ type Device = {
     Online: boolean;
 }
 
-if (Deno.args[0] == "list-devices") {
+const payload = JSON.parse(Deno.args[0]) as sunbeam.CommandInput;
+
+if (payload.command == "list-devices") {
     const status = await $`tailscale status --json`.json();
     const devices: Device[] = Object.values(status.Peer);
     const items: sunbeam.ListItem[] = devices.map((device) => ({

@@ -1,7 +1,7 @@
 #!/usr/bin/env deno run -A
 
 import { Octokit } from "https://esm.sh/octokit?dts";
-import * as sunbeam from "npm:sunbeam-types@0.23.1"
+import * as sunbeam from "npm:sunbeam-types@0.23.7"
 
 if (Deno.args.length === 0) {
     const manifest: sunbeam.Manifest = {
@@ -23,6 +23,25 @@ if (Deno.args.length === 0) {
                         description: "Gist ID",
                         type: "string",
                         required: true,
+                    }
+                ]
+            },
+            {
+                name: "create",
+                title: "Create Gist",
+                mode: "silent",
+                params: [
+                    { name: "filename", type: "string", required: true },
+                    { name: "content", type: "string", required: true }
+                ]
+            },
+            {
+                name: "delete",
+                title: "Delete Gist",
+                mode: "silent",
+                params: [
+                    {
+                        name: "id", description: "Gist ID", type: "string", required: true,
                     }
                 ]
             },
@@ -59,8 +78,8 @@ if (!token) {
 
 const oktokit = new Octokit({ auth: token });
 
-const command = Deno.args[0]
-if (command == "list") {
+const payload = JSON.parse(Deno.args[0]) as sunbeam.CommandInput
+if (payload.command == "list") {
     const gists = await oktokit.request("GET /gists");
     const items = gists.data.map((gist) => {
         const files = Object.values(gist.files)
@@ -82,6 +101,31 @@ if (command == "list") {
                     params: {
                         id: gist.id,
                         file: Object.values(gist.files)[0].filename!
+                    }
+                },
+                {
+                    title: "Create Gist",
+                    type: "run",
+                    command: "create",
+                    params: {
+                        filename: {
+                            type: "text",
+                            title: "Filename",
+                        },
+                        content: {
+                            type: "textarea",
+                            title: "Content",
+                        }
+                    }
+                },
+                {
+                    title: "Delete Gist",
+                    type: "run",
+                    key: "d",
+                    command: "delete",
+                    reload: true,
+                    params: {
+                        id: gist.id,
                     }
                 },
                 {
@@ -108,11 +152,10 @@ if (command == "list") {
 
     console.log(JSON.stringify(list))
     Deno.exit(0)
-} else if (command == "browse") {
-    const { params }: sunbeam.CommandInput<{
-        id: string
-    }> = await new Response(Deno.stdin.readable).json()
-
+} else if (payload.command == "browse") {
+    const params = payload.params as {
+        id: string,
+    }
     const gist = await oktokit.request("GET /gists/{gist_id}", {
         gist_id: params.id,
     });
@@ -150,11 +193,21 @@ if (command == "list") {
 
     console.log(JSON.stringify(list))
     Deno.exit(0)
-} else if (command == "view") {
-    const { params }: sunbeam.CommandInput<{
+} else if (payload.command == "delete") {
+    const params = payload.params as {
+        id: string,
+    }
+
+    await oktokit.request("DELETE /gists/{gist_id}", {
+        gist_id: params.id,
+    });
+
+    Deno.exit(0)
+} else if (payload.command == "view") {
+    const params = payload.params as {
         id: string,
         file: string,
-    }> = await new Response(Deno.stdin.readable).json()
+    }
 
     const gist = await oktokit.request("GET /gists/{gist_id}", {
         gist_id: params.id,

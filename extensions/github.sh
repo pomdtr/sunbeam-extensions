@@ -19,9 +19,10 @@ sunbeam query -n '{
 exit 0
 fi
 
-if [ "$1" = "search-repos" ]; then
+COMMAND=$(echo "$1" | jq -r '.command')
+if [ "$COMMAND" = "search-repos" ]; then
     # shellcheck disable=SC2016
-    QUERY=$(sunbeam query '.query')
+    QUERY=$(echo "$1" | sunbeam query '.query')
     if [ "$QUERY" = "null" ]; then
         gh api "/user/repos?sort=updated" | sunbeam query '{
             type: "list",
@@ -52,7 +53,7 @@ if [ "$1" = "search-repos" ]; then
             })
         }'
 elif [ "$1" = "list-prs" ]; then
-    REPOSITORY=$(sunbeam query -r '.params.repo')
+    REPOSITORY=$(echo "$1" | sunbeam query -r '.params.repo')
     gh pr list --repo "$REPOSITORY" --json author,title,url,number | sunbeam query 'map({
         title: .title,
         subtitle: .author.login,

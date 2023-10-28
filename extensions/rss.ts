@@ -1,7 +1,11 @@
 #!/usr/bin/env deno run -A
 
+import Parser from "npm:rss-parser";
+import { formatDistance } from "npm:date-fns";
+import * as sunbeam from "npm:sunbeam-types@0.23.7"
+
 if (Deno.args.length == 0) {
-    const manifest = {
+    const manifest: sunbeam.Manifest = {
         title: "RSS",
         commands: [
             {
@@ -23,11 +27,9 @@ if (Deno.args.length == 0) {
     Deno.exit(0);
 }
 
-import Parser from "npm:rss-parser";
-import { formatDistance } from "npm:date-fns";
-
-if (Deno.args[0] == "show") {
-    const { params } = await new Response(Deno.stdin.readable).json();
+const payload = JSON.parse(Deno.args[0]) as sunbeam.CommandInput;
+if (payload.command == "show") {
+    const params = payload.params as { url: string };
     const feed = await new Parser().parseURL(params.url);
     const page = {
         type: "list",

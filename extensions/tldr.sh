@@ -24,7 +24,8 @@ if ! command -v tldr >/dev/null 2>&1; then
     exit 1
 fi
 
-if [ "$1" = "list" ]; then
+COMMAND=$(echo "$1" | jq -r '.command')
+if [ "$COMMAND" = "list" ]; then
     tldr --list | sunbeam query -R '{
         title: .,
         actions: [
@@ -32,8 +33,8 @@ if [ "$1" = "list" ]; then
             {title: "Copy Command", key: "c", type: "copy", text: ., exit: true }
         ]
     }' | sunbeam query -s '{ type: "list", items: . }'
-elif [ "$1" = "page" ]; then
-    PAGE=$(sunbeam query -r '.params.page')
+elif [ "$COMMAND" = "page" ]; then
+    PAGE=$(echo "$1" | sunbeam query -r '.params.page')
     tldr --raw "$PAGE" | sunbeam query --arg page="$PAGE" -sR '{
             type: "detail", markdown: ., actions: [
                 {title: "Copy Page", type: "copy", text: ., exit: true},

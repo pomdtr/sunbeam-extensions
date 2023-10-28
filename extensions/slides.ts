@@ -1,7 +1,8 @@
 #!/usr/bin/env deno run -A
+import * as sunbeam from "npm:sunbeam-types@0.23.7"
 
 if (Deno.args.length === 0) {
-    const manifest = {
+    const manifest: sunbeam.Manifest = {
         title: "Slides",
         commands: [
             {
@@ -26,8 +27,9 @@ if (Deno.args.length === 0) {
     Deno.exit(0);
 }
 
-if (Deno.args[0] == "show") {
-    const { params } = await new Response(Deno.stdin.readable).json();
+const payload = JSON.parse(Deno.args[0]) as sunbeam.CommandInput;
+if (payload.command == "show") {
+    const params = payload.params as { path: string; index?: number };
 
     const markdown = Deno.readTextFileSync(params.path);
 
