@@ -24,7 +24,7 @@ if [ $# -eq 0 ]; then
                     {
                         name: "val",
                         type: "string",
-                        description: "Val ID",
+                        title: "Val ID",
                         required: true
                     }
                 ]

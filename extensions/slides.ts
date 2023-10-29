@@ -62,9 +62,10 @@ if (payload.command == "show") {
         });
     }
 
-    const detail = {
+    const detail: sunbeam.Detail = {
         type: "detail",
-        markdown: section.trim(),
+        highlight: "markdown",
+        text: section.trim(),
         actions: actions,
     };
 

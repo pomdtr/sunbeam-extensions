@@ -18,7 +18,7 @@ if [ $# -eq 0 ]; then
                 params: [
                     {
                         name: "name",
-                        description: "Extension Name",
+                        title: "Extension Name",
                         required: true,
                         type: "string"
                     }
@@ -31,13 +31,13 @@ if [ $# -eq 0 ]; then
                 params: [
                     {
                         name: "name",
-                        description: "Extension Name",
+                        title: "Extension Name",
                         required: true,
                         type: "string"
                     },
                     {
                         name: "newName",
-                        description: "New Extension Name",
+                        title: "New Extension Name",
                         required: true,
                         type: "string"
                     }

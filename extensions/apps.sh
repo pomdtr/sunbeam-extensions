@@ -70,6 +70,11 @@ if [ $# -eq 0 ]; then
                 name: "http-prompt",
                 title: "Open http-prompt",
                 mode: "tty"
+            },
+            {
+                name: "meteo",
+                title: "Show Meteo",
+                mode: "tty"
             }
         ]
     }'
@@ -105,4 +110,6 @@ elif [ "$COMMAND" = "butterfish" ]; then
     butterfish shell
 elif [ "$COMMAND" = "http-prompt" ]; then
     http-prompt
+elif [ "$COMMAND" = "meteo" ]; then
+    curl -s 'wttr.in/?0' | less -R
 fi

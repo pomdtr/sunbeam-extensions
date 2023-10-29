@@ -1,7 +1,7 @@
 #!/usr/bin/env deno run -A
 
 import { Octokit } from "https://esm.sh/octokit?dts";
-import * as sunbeam from "npm:sunbeam-types@0.23.7"
+import * as sunbeam from "npm:sunbeam-types@0.23.10"
 
 if (Deno.args.length === 0) {
     const manifest: sunbeam.Manifest = {
@@ -20,7 +20,7 @@ if (Deno.args.length === 0) {
                 params: [
                     {
                         name: "id",
-                        description: "Gist ID",
+                        title: "Gist ID",
                         type: "string",
                         required: true,
                     }
@@ -41,7 +41,7 @@ if (Deno.args.length === 0) {
                 mode: "silent",
                 params: [
                     {
-                        name: "id", description: "Gist ID", type: "string", required: true,
+                        name: "id", title: "Gist ID", type: "string", required: true,
                     }
                 ]
             },
@@ -52,13 +52,13 @@ if (Deno.args.length === 0) {
                 params: [
                     {
                         name: "id",
-                        description: "Gist ID",
+                        title: "Gist ID",
                         type: "string",
                         required: true,
                     },
                     {
                         name: "file",
-                        description: "File Name",
+                        title: "File Name",
                         type: "string",
                         required: true,
                     }
@@ -217,7 +217,8 @@ if (payload.command == "list") {
 
     const page: sunbeam.Detail = {
         type: "detail",
-        markdown: ["```" + file?.language?.toLowerCase() || "txt", file?.content, "```"].join("\n"),
+        highlight: "markdown",
+        text: ["```" + file?.language?.toLowerCase() || "txt", file?.content, "```"].join("\n"),
         actions: [
             {
                 title: "Copy Raw URL",

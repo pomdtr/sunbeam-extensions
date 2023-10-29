@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run -A
 import $ from "https://deno.land/x/dax@0.35.0/mod.ts";
-import type * as sunbeam from "npm:sunbeam-types@0.23.7";
+import type * as sunbeam from "npm:sunbeam-types@0.23.10";
 
 if (Deno.args.length == 0) {
     const manifest: sunbeam.Manifest = {
@@ -19,7 +19,7 @@ if (Deno.args.length == 0) {
                     {
                         name: "ip",
                         required: true,
-                        description: "Device IP",
+                        title: "Device IP",
                         type: "string",
                     }
                 ]

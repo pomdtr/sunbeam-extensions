@@ -12,7 +12,7 @@ if [ $# -eq 0 ]; then
     # each command can be called through the cli
     commands: [
         { name: "list", mode: "page", title: "Search Pages" },
-        { name: "page", mode: "page", title: "View page", params: [{ name: "page", type: "string", required: true, description: "page to show" }] }
+        { name: "view", mode: "page", title: "View page", params: [{ name: "page", type: "string", required: true, title: "page to show" }] }
     ]
 }'
 exit 0
@@ -29,14 +29,14 @@ if [ "$COMMAND" = "list" ]; then
     tldr --list | sunbeam query -R '{
         title: .,
         actions: [
-            {title: "View Page", type: "run", command: "page", params: {page: .}},
+            {title: "View Page", type: "run", command: "view", params: {page: .}},
             {title: "Copy Command", key: "c", type: "copy", text: ., exit: true }
         ]
     }' | sunbeam query -s '{ type: "list", items: . }'
-elif [ "$COMMAND" = "page" ]; then
+elif [ "$COMMAND" = "view" ]; then
     PAGE=$(echo "$1" | sunbeam query -r '.params.page')
-    tldr --raw "$PAGE" | sunbeam query --arg page="$PAGE" -sR '{
-            type: "detail", markdown: ., actions: [
+    tldr --color=always "$PAGE" | sunbeam query --arg page="$PAGE" -sR '{
+            type: "detail", highlight: "ansi", text: ., actions: [
                 {title: "Copy Page", type: "copy", text: ., exit: true},
                 {title: "Copy Command", key: "c", type: "copy", text: $page, exit: true}
             ]
