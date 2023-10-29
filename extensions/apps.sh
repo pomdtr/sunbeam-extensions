@@ -65,6 +65,11 @@ if [ $# -eq 0 ]; then
                 name: "yaegi",
                 title: "Open Yaegi",
                 mode: "tty"
+            },
+            {
+                name: "http-prompt",
+                title: "Open http-prompt",
+                mode: "tty"
             }
         ]
     }'
@@ -98,4 +103,6 @@ elif [ "$COMMAND" = "yaegi" ]; then
     rlwrap yaegi || true
 elif [ "$COMMAND" = "butterfish" ]; then
     butterfish shell
+elif [ "$COMMAND" = "http-prompt" ]; then
+    http-prompt
 fi
