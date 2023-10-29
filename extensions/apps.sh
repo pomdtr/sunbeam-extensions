@@ -60,6 +60,11 @@ if [ $# -eq 0 ]; then
                 name: "sncli",
                 title: "Open sncli",
                 mode: "tty"
+            },
+            {
+                name: "yaegi",
+                title: "Open Yaegi",
+                mode: "tty"
             }
         ]
     }'
@@ -89,4 +94,8 @@ elif [ "$COMMAND" = "fish" ]; then
     fish
 elif [ "$COMMAND" = "sncli" ]; then
     sncli
+elif [ "$COMMAND" = "yaegi" ]; then
+    rlwrap yaegi || true
+elif [ "$COMMAND" = "butterfish" ]; then
+    butterfish shell
 fi

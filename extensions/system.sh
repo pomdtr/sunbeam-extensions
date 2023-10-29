@@ -15,6 +15,16 @@ if [ $# -eq 0 ]; then
                 name: "lock-screen",
                 title: "Lock Screen",
                 mode: "silent"
+            },
+            {
+                name: "empty-trash",
+                title: "Empty Trash",
+                mode: "silent"
+            },
+            {
+                name: "open-trash",
+                title: "Open Trash",
+                mode: "silent"
             }
         ]
     }'
@@ -26,4 +36,8 @@ if [ "$COMMAND" = "toggle-dark-mode" ]; then
     osascript -e 'tell app "System Events" to tell appearance preferences to set dark mode to not dark mode'
 elif [ "$COMMAND" = "lock-screen" ]; then
     osascript -e 'tell application "System Events" to keystroke "q" using {command down,control down}'
+elif [ "$COMMAND" = "empty-trash" ]; then
+    osascript -e 'tell application "Finder" to empty trash'
+elif [ "$COMMAND" = "open-trash" ]; then
+    osascript -e 'tell application "Finder" to open trash'
 fi
