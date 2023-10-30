@@ -3,6 +3,7 @@
 if [ $# -eq 0 ]; then
     sunbeam query -n '{
         title: "Bitwarden Vault",
+        description: "List your Bitwarden passwords",
         commands: [
             {
                 name: "list-passwords",

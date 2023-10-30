@@ -5,6 +5,7 @@ set -eu
 if [ $# -eq 0 ]; then
     sunbeam query -n '{
         title: "Meteo",
+        description: "Show Meteo",
         commands: [
             {
                 name: "show",

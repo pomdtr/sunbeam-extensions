@@ -5,6 +5,7 @@ set -eu
 if [ $# -eq 0 ]; then
     sunbeam query -n '{
         title: "System",
+        description: "Control your system",
         commands: [
             {
                 name: "toggle-dark-mode",

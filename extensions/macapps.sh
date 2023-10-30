@@ -5,6 +5,7 @@ set -eu
 if [ $# -eq 0 ]; then
     sunbeam query -n '{
         title: "Mac Apps",
+        description: "Open your favorite apps",
         commands: [
             {
                 name: "list",

@@ -5,6 +5,7 @@ set -eu
 if [ $# -eq 0 ]; then
 sunbeam query -n '{
     title: "GitHub",
+    description: "Search GitHub Repositories",
     commands: [
         {name: "search-repos", mode: "page", title: "Search Repositories"},
         {name: "list-prs", mode: "page", title: "List Pull Requests", params: [{name: "repo", type: "string", required: true}]}

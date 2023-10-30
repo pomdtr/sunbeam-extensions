@@ -3,7 +3,8 @@ import type * as sunbeam from "npm:sunbeam-types@0.23.12";
 
 if (Deno.args.length == 0) {
     const manifest: sunbeam.Manifest = {
-        title: "Tailcale",
+        title: "Tailscale",
+        description: "Manage your tailscale devices",
         commands: [
             {
                 name: "list-devices",

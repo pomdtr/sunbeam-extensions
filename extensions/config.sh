@@ -5,6 +5,7 @@ set -eu
 if [ $# -eq 0 ]; then
     sunbeam query -n '{
         title: "Edit Config Files",
+        description: "Edit your favorite config files",
         commands: [
             {
                 name: "fish",

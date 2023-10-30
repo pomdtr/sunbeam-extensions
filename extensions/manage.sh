@@ -5,6 +5,7 @@ set -eu
 if [ $# -eq 0 ]; then
     sunbeam query -n '{
         title: "Manage Extensions",
+        description: "Manage Sunbeam Extensions",
         commands: [
             {
                 name: "list-extensions",

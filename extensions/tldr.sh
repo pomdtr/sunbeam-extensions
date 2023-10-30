@@ -2,13 +2,14 @@
 # shellcheck disable=SC2016
 
 # This script is an example of how to use tldr with sunbeam
-set -e
+set -eu
 
 # if no arguments are passed, return the extension's manifest
 if [ $# -eq 0 ]; then
     sunbeam query -n '
 {
     title: "Browse TLDR Pages",
+    description: "Browse TLDR Pages",
     # each command can be called through the cli
     commands: [
         { name: "list", mode: "page", title: "Search Pages" },

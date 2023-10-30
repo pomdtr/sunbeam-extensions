@@ -4,6 +4,7 @@ import * as sunbeam from "npm:sunbeam-types@0.23.7"
 if (Deno.args.length === 0) {
     const manifest: sunbeam.Manifest = {
         title: "Raindrop",
+        description: "Manage your raindrop bookmarks",
         commands: [
             {
                 title: "Search Bookmarks",

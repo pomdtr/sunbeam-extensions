@@ -8,6 +8,7 @@ import * as path from "https://deno.land/std/path/mod.ts";
 if (Deno.args.length == 0) {
     const manifest: sunbeam.Manifest = {
         title: "VS Code",
+        description: "Manage your VS Code projects",
         commands: [
             {
                 name: "list-projects",

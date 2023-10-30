@@ -5,6 +5,7 @@ set -eu
 if [ $# -eq 0 ]; then
     sunbeam query -n '{
         title: "Val Town",
+        description: "Manage your Vals",
         commands: [
             {
                 name: "home",

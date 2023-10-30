@@ -4,7 +4,8 @@ set -eu
 
 if [ $# -eq 0 ]; then
     sunbeam query -n '{
-        title: "QuickLinks",
+        title: "Quick Links",
+        description: "Open your favorite websites",
         commands: [
             {
                 name: "google",

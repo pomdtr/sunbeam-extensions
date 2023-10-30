@@ -8,6 +8,7 @@ if len(sys.argv) == 1:
     json.dump(
         {
             "title": "File Browser",
+            "description": "Browse files and folders",
             "commands": [
                 {
                     "name": "ls",

@@ -5,6 +5,7 @@ set -eu
 if [ $# -eq 0 ]; then
     sunbeam query -n '{
         title: "Cli Apps",
+        description: "Open your favorite cli apps",
         commands: [
             {
                 name: "htop",
