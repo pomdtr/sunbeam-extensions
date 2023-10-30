@@ -1,8 +1,9 @@
 #!/usr/bin/env -S deno run -A
 
 import { DB } from "https://deno.land/x/sqlite@v3.8/mod.ts";
-import * as fs from "https://deno.land/std@0.203.0/fs/mod.ts";
+import * as fs from "https://deno.land/std/fs/mod.ts";
 import type * as sunbeam from "npm:sunbeam-types@0.23.7";
+import * as path from "https://deno.land/std/path/mod.ts";
 
 if (Deno.args.length == 0) {
     const manifest: sunbeam.Manifest = {
@@ -45,37 +46,41 @@ if (payload.command == "list-projects") {
         return true;
     });
 
-    const items: sunbeam.ListItem[] = entries.map((entry) => ({
-        title: entry.folderUri.split("/").pop(),
-        accessories: [
-            entry.folderUri.replace("file://", "").replace(homedir, "~"),
-        ],
-        actions: [
-            {
-                title: "Open in VS Code",
-                type: "open",
-                target: entry.folderUri,
-                app: {
-                    mac: "Visual Studio Code",
+
+    const items: sunbeam.ListItem[] = entries.map((entry) => {
+        const folderUri = new URL(entry.folderUri);
+        const folderPath = path.dirname(folderUri.pathname);
+
+        return {
+            title: path.basename(folderUri.pathname),
+            subtitle: path.basename(folderPath),
+            actions: [
+                {
+                    title: "Open in VS Code",
+                    type: "open",
+                    target: entry.folderUri,
+                    app: {
+                        mac: "Visual Studio Code",
+                    },
+                    exit: true,
                 },
-                exit: true,
-            },
-            {
-                title: "Open Folder",
-                key: "o",
-                type: "open",
-                target: entry.folderUri,
-                exit: true
-            },
-            {
-                title: "Copy Path",
-                key: "c",
-                type: "copy",
-                exit: true,
-                text: entry.folderUri.replace("file://", ""),
-            },
-        ],
-    }));
+                {
+                    title: "Open Folder",
+                    key: "o",
+                    type: "open",
+                    target: entry.folderUri,
+                    exit: true
+                },
+                {
+                    title: "Copy Path",
+                    key: "c",
+                    type: "copy",
+                    exit: true,
+                    text: entry.folderUri.replace("file://", ""),
+                },
+            ],
+        }
+    });
 
     const list: sunbeam.List = { type: "list", items };
 

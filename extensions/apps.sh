@@ -111,5 +111,5 @@ elif [ "$COMMAND" = "butterfish" ]; then
 elif [ "$COMMAND" = "http-prompt" ]; then
     http-prompt
 elif [ "$COMMAND" = "meteo" ]; then
-    curl -s 'wttr.in/?0' | less -R
+    curl -s 'wttr.in/?3n' | less -R
 fi

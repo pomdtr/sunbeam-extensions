@@ -18,26 +18,20 @@ if [ $# -eq 0 ]; then
                 params: [
                     {
                         name: "name",
-                        title: "Extension Name",
+                        description: "Extension Name",
                         required: true,
                         type: "string"
                     }
                 ]
             },
             {
-                name: "rename-extension",
-                title: "Rename Extension",
-                mode: "silent",
+                name: "edit-extension",
+                title: "Edit Extension",
+                mode: "tty",
                 params: [
                     {
                         name: "name",
-                        title: "Extension Name",
-                        required: true,
-                        type: "string"
-                    },
-                    {
-                        name: "newName",
-                        title: "New Extension Name",
+                        description: "Extension Name",
                         required: true,
                         type: "string"
                     }
@@ -50,32 +44,28 @@ fi
 
 COMMAND=$(echo "$1" | jq -r '.command')
 if [ "$COMMAND" = "list-extensions" ]; then
-    sunbeam extension list --json | jq 'to_entries' | sunbeam query '{
+    sunbeam extension list --json | sunbeam query '{
         type: "list",
         items: map({
-            title: .key,
-            subtitle: .value.title,
+            title: .alias,
+            subtitle: .manifest.title,
+            accessories: [.type],
             actions: [
+                {
+                    "title": "Edit",
+                    "type": "run",
+                    "command": "edit-extension",
+                    "params": {
+                        "name": .alias
+                    },
+                    reload: true
+                },
                 {
                     "title": "Remove",
                     "type": "run",
                     "command": "remove-extension",
                     "params": {
-                        "name": .key
-                    },
-                    reload: true
-                },
-                {
-                    "title": "Rename",
-                    "type": "run",
-                    "command": "rename-extension",
-                    "params": {
-                        "name": .key,
-                        "newName": {
-                            "type": "text",
-                            required: true,
-                            default: .key
-                        }
+                        "name": .alias
                     },
                     reload: true
                 }
@@ -85,8 +75,7 @@ if [ "$COMMAND" = "list-extensions" ]; then
 elif [ "$COMMAND" = "remove-extension" ]; then
     NAME=$(echo "$1" | sunbeam query -r '.params.name')
     sunbeam extension remove "$NAME"
-elif [ "$COMMAND" = "rename-extension" ]; then
+elif [ "$COMMAND" = "edit-extension" ]; then
     NAME=$(echo "$1" | sunbeam query -r '.params.name')
-    NEW_NAME=$(echo "$1" | sunbeam query -r '.params.newName')
-    sunbeam extension rename "$NAME" "$NEW_NAME"
+    sunbeam extension edit "$NAME"
 fi

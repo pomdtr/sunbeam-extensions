@@ -1,7 +1,7 @@
 #!/usr/bin/env deno run -A
 
 import { Octokit } from "https://esm.sh/octokit?dts";
-import * as sunbeam from "npm:sunbeam-types@0.23.10"
+import * as sunbeam from "npm:sunbeam-types@0.23.12"
 
 if (Deno.args.length === 0) {
     const manifest: sunbeam.Manifest = {
@@ -20,7 +20,7 @@ if (Deno.args.length === 0) {
                 params: [
                     {
                         name: "id",
-                        title: "Gist ID",
+                        description: "Gist ID",
                         type: "string",
                         required: true,
                     }
@@ -31,8 +31,8 @@ if (Deno.args.length === 0) {
                 title: "Create Gist",
                 mode: "silent",
                 params: [
-                    { name: "filename", type: "string", required: true },
-                    { name: "content", type: "string", required: true }
+                    { name: "filename", description: "Filename", type: "string", required: true },
+                    { name: "content", description: "Filename", type: "string", required: true }
                 ]
             },
             {
@@ -41,7 +41,7 @@ if (Deno.args.length === 0) {
                 mode: "silent",
                 params: [
                     {
-                        name: "id", title: "Gist ID", type: "string", required: true,
+                        name: "id", description: "Gist ID", type: "string", required: true,
                     }
                 ]
             },
@@ -52,13 +52,13 @@ if (Deno.args.length === 0) {
                 params: [
                     {
                         name: "id",
-                        title: "Gist ID",
+                        description: "Gist ID",
                         type: "string",
                         required: true,
                     },
                     {
                         name: "file",
-                        title: "File Name",
+                        description: "File Name",
                         type: "string",
                         required: true,
                     }

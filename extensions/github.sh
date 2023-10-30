@@ -2,12 +2,6 @@
 
 set -eu
 
-# check if gh is installed
-if ! command -v gh >/dev/null 2>&1; then
-    echo "gh is not installed"
-    exit 1
-fi
-
 if [ $# -eq 0 ]; then
 sunbeam query -n '{
     title: "GitHub",
@@ -17,6 +11,12 @@ sunbeam query -n '{
     ]
 }'
 exit 0
+fi
+
+# check if gh is installed
+if ! command -v gh >/dev/null 2>&1; then
+    echo "gh is not installed"
+    exit 1
 fi
 
 COMMAND=$(echo "$1" | jq -r '.command')

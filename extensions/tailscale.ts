@@ -1,6 +1,5 @@
 #!/usr/bin/env -S deno run -A
-import $ from "https://deno.land/x/dax@0.35.0/mod.ts";
-import type * as sunbeam from "npm:sunbeam-types@0.23.10";
+import type * as sunbeam from "npm:sunbeam-types@0.23.12";
 
 if (Deno.args.length == 0) {
     const manifest: sunbeam.Manifest = {
@@ -19,7 +18,7 @@ if (Deno.args.length == 0) {
                     {
                         name: "ip",
                         required: true,
-                        title: "Device IP",
+                        description: "Device IP",
                         type: "string",
                     }
                 ]
@@ -41,7 +40,9 @@ type Device = {
 const payload = JSON.parse(Deno.args[0]) as sunbeam.CommandInput;
 
 if (payload.command == "list-devices") {
-    const status = await $`tailscale status --json`.json();
+    const command = new Deno.Command("tailscale", { args: ["status", "--json"] });
+    const { stdout } = await command.output()
+    const status = JSON.parse(new TextDecoder().decode(stdout));
     const devices: Device[] = Object.values(status.Peer);
     const items: sunbeam.ListItem[] = devices.map((device) => ({
         title: device.DNSName.split(".")[0],
@@ -77,5 +78,7 @@ if (payload.command == "list-devices") {
     console.log(JSON.stringify(list));
 } else if (payload.command == "ssh-to-device") {
     const params = payload.params as { ip: string };
-    await $`ssh ${params.ip}`;
+    const command = new Deno.Command("ssh", { args: [params.ip] })
+    const ps = command.spawn()
+    await ps.status
 }

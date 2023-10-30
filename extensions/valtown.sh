@@ -113,7 +113,6 @@ elif [ "$COMMAND" = "edit" ]; then
         | sunbeam query -r .code \
         | sunbeam edit -e tsx \
         | sunbeam query -Rs '{ code: . }' \
-        | sunbeam fetch -X POST -d @- -H "Content-Type: application/json" -H "Authorization: Bearer $VALTOWN_TOKEN" "$API_ROOT/v1/vals/$VAL_ID/versions" \
-        > /dev/null
+        | sunbeam fetch -X POST -d @- -H "Content-Type: application/json" -H "Authorization: Bearer $VALTOWN_TOKEN" "$API_ROOT/v1/vals/$VAL_ID/versions"
 fi
 

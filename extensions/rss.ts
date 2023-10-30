@@ -2,7 +2,7 @@
 
 import Parser from "npm:rss-parser";
 import { formatDistance } from "npm:date-fns";
-import * as sunbeam from "npm:sunbeam-types@0.23.8"
+import * as sunbeam from "npm:sunbeam-types@0.23.12"
 
 if (Deno.args.length == 0) {
     const manifest: sunbeam.Manifest = {
@@ -18,12 +18,13 @@ if (Deno.args.length == 0) {
                 params: [
                     {
                         name: "url",
+                        description: "URL",
                         required: true,
                         type: "string",
                     },
                 ],
             },
-        ],
+        ]
     };
 
     console.log(JSON.stringify(manifest));
@@ -34,10 +35,10 @@ const payload = JSON.parse(Deno.args[0]) as sunbeam.CommandInput;
 if (payload.command == "show") {
     const params = payload.params as { url: string };
     const feed = await new Parser().parseURL(params.url);
-    const page = {
+    const page: sunbeam.List = {
         type: "list",
         items: feed.items.map((item) => ({
-            title: item.title,
+            title: item.title || "",
             subtitle: item.categories?.join(", ") || "",
             accessories: item.isoDate
                 ? [
@@ -50,7 +51,15 @@ if (payload.command == "show") {
                 {
                     title: "Open in browser",
                     type: "open",
-                    target: item.link,
+                    target: item.link || "",
+                    exit: true
+                },
+                {
+                    title: "Copy Link",
+                    type: "copy",
+                    key: "c",
+                    text: item.link || "",
+                    exit: true
                 },
             ],
         })),
