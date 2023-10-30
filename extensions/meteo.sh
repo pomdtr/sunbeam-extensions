@@ -17,7 +17,7 @@ if [ $# -eq 0 ]; then
     exit 0
 fi
 
-curl -s 'wttr.in/?3n' | sunbeam query -sR '{
+sunbeam fetch -A "curl/7.75.0 (x86_64-pc-linux-gnu)" 'wttr.in/?3n' | sunbeam query -sR '{
     type: "detail",
     text: .
 }'
